@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { useGpxDataContext } from "../../hooks/useGpxDataContext";
 import InputFileReader from "../inputs/InputFileReader";
 import { parseAndPostTrack } from "../../gpx/parseAndPostTrack";
+import { useNavigate } from "react-router-dom";
 
-const PostTrack = () => {
+const PostTrackForm = () => {
   const { gpxData, setGpxData } = useGpxDataContext();
   const [title, setTitle] = useState("");
+  const navigate = useNavigate();
 
   const handleFileChange = (formData: string) => {
     setGpxData(formData);
@@ -18,6 +20,7 @@ const PostTrack = () => {
       console.log(title);
       parseAndPostTrack(gpxData, title, setGpxData);
     }
+    navigate("/");
   };
 
   return (
@@ -41,4 +44,4 @@ const PostTrack = () => {
   );
 };
 
-export default PostTrack;
+export default PostTrackForm;

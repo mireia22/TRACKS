@@ -1,7 +1,9 @@
+import { Link, useNavigate } from "react-router-dom";
 import { useUserDataContext } from "../../hooks/useUserData";
 
 const RegisterForm = () => {
   const { setUserData, userData } = useUserDataContext();
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -29,6 +31,7 @@ const RegisterForm = () => {
         password: "",
         favouriteTracks,
       });
+      navigate("/login");
     } catch (error) {
       console.error("Error during registration:", error);
     }
@@ -37,7 +40,7 @@ const RegisterForm = () => {
   return (
     <div>
       <form
-        className="flex flex-col gap-4 py-4 px-2 bg-purple-200 items-center w-[16rem] rounded-lg"
+        className="flex flex-col gap-4 py-4 px-2 bg-dark-purple text-white items-center w-[16rem] rounded-lg"
         onSubmit={handleRegister}
       >
         <h2 className="text-xl font-semibold ">Register Form</h2>
@@ -52,7 +55,7 @@ const RegisterForm = () => {
                 userName: e.target.value,
               })
             }
-            className="p-1 rounded-sm"
+            className="p-1 rounded-sm text-black"
             id="username"
             required
           />
@@ -69,7 +72,7 @@ const RegisterForm = () => {
                 email: e.target.value,
               })
             }
-            className="p-1 rounded-sm"
+            className="p-1 rounded-sm text-black"
             id="email"
             required
           />
@@ -85,14 +88,20 @@ const RegisterForm = () => {
                 password: e.target.value,
               })
             }
-            className="p-1 rounded-sm"
+            className="p-1 rounded-sm text-black"
             id="password"
             required
           />
         </div>
-        <button className="px-2 bg-purple-800 rounded-lg text-white">
+        <button className="px-2 py-1 bg-black rounded-lg text-white text-sm">
           REGISTER
         </button>
+        <div className="flex flex-col items-center text-sm">
+          <p>If you already have an account:</p>
+          <Link to="/login" className="text-purple-400 underline font-semibold">
+            Login
+          </Link>
+        </div>
       </form>
     </div>
   );

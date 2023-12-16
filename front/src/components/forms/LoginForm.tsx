@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useUserDataContext } from "../../hooks/useUserData";
 
 const LoginForm = () => {
@@ -40,7 +41,7 @@ const LoginForm = () => {
   return (
     <div>
       <form
-        className="flex flex-col gap-4 py-4 px-2 bg-purple-200  items-center w-[16rem] rounded-lg"
+        className="flex flex-col gap-4 py-4 px-2 bg-dark-purple text-white  items-center w-[16rem] rounded-lg"
         onSubmit={handleLogin}
       >
         <h2 className="text-xl font-semibold">Login Form</h2>
@@ -50,7 +51,7 @@ const LoginForm = () => {
             type="text"
             value={email || ""}
             onChange={(e) => setUserData({ email: e.target.value })}
-            className="p-1 rounded-sm"
+            className="text-black p-1 rounded-sm"
             id="email"
             required
           />
@@ -61,14 +62,23 @@ const LoginForm = () => {
             type="password"
             value={password || ""}
             onChange={(e) => setUserData({ password: e.target.value })}
-            className="p-1 rounded-sm"
+            className="text-black p-1 rounded-sm"
             id="password"
             required
           />
         </div>
-        <button className="px-2 bg-purple-800 rounded-lg text-white">
-          LOGIN
+        <button className="px-2 py-1 bg-black rounded-lg text-white text-sm">
+          Login
         </button>
+        <div className="flex flex-col items-center text-sm">
+          <p>Don't you have an account? </p>
+          <Link
+            to="/register"
+            className="text-purple-300 underline font-semibold "
+          >
+            Register
+          </Link>
+        </div>
       </form>
     </div>
   );
