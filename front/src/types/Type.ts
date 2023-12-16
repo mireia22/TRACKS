@@ -1,3 +1,4 @@
+//GPX DATA
 export type GpxData = {
   points: {
     lat: number | null;
@@ -10,5 +11,17 @@ export type GpxData = {
   totalDistance: number | null;
   elevation: { min: number | null; max: number | null; avg: number | null };
 };
+export type trackFormData = {
+  title: string;
+  photos: string[] | null;
+};
 
 export type SetGpxData = React.Dispatch<React.SetStateAction<GpxData>>;
+
+//USER DATA
+export type UserData = {
+  userName: string | null;
+  email: string | null;
+  password: string | null;
+  favouriteTracks: string[] | null;
+};

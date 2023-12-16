@@ -10,6 +10,7 @@ const TrackViewer = () => {
   const { points, elevation, totalDistance } = gpxData;
   const { id } = useParams();
   console.log(points, "points");
+
   useEffect(() => {
     const fetchData = async () => {
       try {

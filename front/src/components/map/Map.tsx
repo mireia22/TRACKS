@@ -1,12 +1,14 @@
 import { Circle, MapContainer, Polyline, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 const Map = ({ points }) => {
-  console.log("points 0", points[0].lat, points[0].lon);
-  const latitude = points[0].lat;
-  const longitude = points[0].lon;
+  if (!points || points.length === 0) {
+    return <div>Loading map...</div>;
+  }
+
+  const latitudesAndLongitudes = points.map((point) => [point.lat, point.lon]);
 
   return (
-    <MapContainer center={[latitude, longitude]} zoom={12}>
+    <MapContainer center={latitudesAndLongitudes[0]} zoom={12}>
       <TileLayer
         attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -18,7 +20,10 @@ const Map = ({ points }) => {
             pathOptions={{ fillColor: "green" }}
             radius={120}
           />
-          <Polyline pathOptions={{ color: "blue" }} positions={points} />
+          <Polyline
+            pathOptions={{ color: "blue" }}
+            positions={latitudesAndLongitudes}
+          />
           <Circle
             center={points[points.length - 1]}
             pathOptions={{ fillColor: "red" }}

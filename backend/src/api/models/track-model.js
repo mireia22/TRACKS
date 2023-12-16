@@ -1,45 +1,52 @@
 const mongoose = require("mongoose");
 
-const trackSchema = new mongoose.Schema({
-  points: [
-    {
-      lat: {
-        type: Number,
-        required: true,
+const trackSchema = new mongoose.Schema(
+  {
+    points: [
+      {
+        lat: {
+          type: Number,
+          required: true,
+        },
+        lon: {
+          type: Number,
+          required: true,
+        },
+        ele: {
+          type: Number,
+          required: true,
+        },
+        time: {
+          type: String,
+          required: true,
+        },
       },
-      lon: {
-        type: Number,
-        required: true,
-      },
-      ele: {
-        type: Number,
-        required: true,
-      },
-      time: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
-  totalDistance: {
-    type: Number,
-  },
-  elevation: {
-    min: {
+    ],
+    totalDistance: {
       type: Number,
     },
-    max: {
-      type: Number,
+    elevation: {
+      min: {
+        type: Number,
+      },
+      max: {
+        type: Number,
+      },
+      avg: {
+        type: Number,
+      },
     },
-    avg: {
-      type: Number,
+    photos: [{ src: { type: String } }],
+    title: {
+      type: String,
     },
   },
-  personRecorder: {
-    type: String,
-  },
-});
+  {
+    timestamps: true,
+    collection: "tracks",
+  }
+);
 
-const Track = mongoose.model("track", trackSchema, "track");
+const Track = mongoose.model("tracks", trackSchema, "tracks");
 
 module.exports = Track;

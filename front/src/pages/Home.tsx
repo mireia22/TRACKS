@@ -33,7 +33,7 @@ const Home = () => {
               >
                 <Link to={`/tracks/${data._id}`}>
                   <p>{toKM(data.totalDistance)} km</p>
-                  <p>{data.personRecorder}</p>
+                  <p>{data.title}</p>
                 </Link>
               </li>
             ))}

@@ -7,7 +7,6 @@ const PostTrack = () => {
   const { gpxData, setGpxData } = useGpxDataContext();
 
   const handleFileChange = (formData: string) => {
-    console.log("formdata", formData);
     setGpxData(formData);
   };
 
@@ -24,7 +23,12 @@ const PostTrack = () => {
       onSubmit={handleFormSubmit}
       className="flex flex-col gap-2 p-2 border-lg bg-slate-300"
     >
+      <label htmlFor="title">Title</label>
+      <input type="text" id="title" />
       <InputFileReader onFileRead={handleFileChange} />
+      <label htmlFor="photos">Photos</label>
+      <input type="file" id="photos" />
+
       <button className=" px-2 bg-purple-800 rounded-lg text-white">
         POST
       </button>
