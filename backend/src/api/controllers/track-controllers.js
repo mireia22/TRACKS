@@ -21,14 +21,12 @@ const getTrackById = async (req, res, next) => {
 
 const postTrack = async (req, res, next) => {
   try {
-    const { points, totalDistance, elevation, title, photos } = req.body;
-
+    const { points, totalDistance, elevation, title } = req.body;
     const newTrack = new Track({
       points,
       totalDistance,
       elevation,
       title,
-      photos,
     });
     const savedTrack = await newTrack.save();
     console.log("Track saved", savedTrack);

@@ -36,7 +36,6 @@ const trackSchema = new mongoose.Schema(
         type: Number,
       },
     },
-    photos: [{ src: { type: String } }],
     title: {
       type: String,
     },

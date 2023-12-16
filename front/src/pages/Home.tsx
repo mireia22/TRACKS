@@ -29,11 +29,15 @@ const Home = () => {
             {savedTracks.map((data) => (
               <li
                 key={data._id}
-                className="p-2 bg-purple-900 text-white cursor-pointer"
+                className="font-semibold flex flex-col items-center justify-center"
               >
-                <Link to={`/tracks/${data._id}`}>
+                <p>{data.title.toUpperCase()}</p>
+
+                <Link
+                  to={`/tracks/${data._id}`}
+                  className="bg-purple-900 p-2 text-white cursor-pointer rounded-lg"
+                >
                   <p>{toKM(data.totalDistance)} km</p>
-                  <p>{data.title}</p>
                 </Link>
               </li>
             ))}

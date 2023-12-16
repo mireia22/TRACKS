@@ -11,10 +11,6 @@ export type GpxData = {
   totalDistance: number | null;
   elevation: { min: number | null; max: number | null; avg: number | null };
 };
-export type trackFormData = {
-  title: string;
-  photos: string[] | null;
-};
 
 export type SetGpxData = React.Dispatch<React.SetStateAction<GpxData>>;
 
