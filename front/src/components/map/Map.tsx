@@ -22,17 +22,17 @@ const Map = ({ points, small }) => {
         <>
           <Circle
             center={points[0]}
-            pathOptions={{ fillColor: "green" }}
-            radius={120}
+            pathOptions={{ fillColor: "#0e7e10", color: "#0daa10" }}
+            radius={100}
           />
           <Polyline
-            pathOptions={{ color: "blue" }}
+            pathOptions={{ color: "#7b0558" }}
             positions={latitudesAndLongitudes}
           />
           <Circle
             center={points[points.length - 1]}
-            pathOptions={{ fillColor: "red" }}
-            radius={120}
+            pathOptions={{ fillColor: "red", color: "red" }}
+            radius={100}
           />
         </>
       )}

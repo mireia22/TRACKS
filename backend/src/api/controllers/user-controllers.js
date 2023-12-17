@@ -105,7 +105,7 @@ const deleteUserByID = async (req, res, next) => {
 const deleteAllUsers = async (req, res, next) => {
   try {
     const deletedUsers = await User.deleteMany({});
-    console.log(`${deletedUsers.deletedCount} tracks deleted`);
+    console.log(`${deletedUsers.deletedCount} users deleted`);
 
     return res.status(200).json({ message: "All users delated" });
   } catch (error) {

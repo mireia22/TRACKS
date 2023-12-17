@@ -43,7 +43,7 @@ const RegisterForm = () => {
         className="flex flex-col gap-4 py-4 px-2 bg-dark-purple text-white items-center w-[16rem] rounded-lg"
         onSubmit={handleRegister}
       >
-        <h2 className="text-xl font-semibold ">Register Form</h2>
+        <h2 className="text-xl font-semibold ">Register Here</h2>
         <div className="flex flex-col">
           <label htmlFor="username">Username</label>
           <input

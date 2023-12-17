@@ -2,7 +2,8 @@ import { GpxData } from "../types/Type";
 
 export async function postTrackData(
   postData: GpxData,
-  title: string
+  title: string,
+  photos: string[]
 ): Promise<void> {
   const response = await fetch("http://localhost:3200/api/v1/tracks", {
     method: "POST",
@@ -14,6 +15,7 @@ export async function postTrackData(
       totalDistance: postData.totalDistance,
       elevation: postData.elevation,
       title,
+      photos,
     }),
   });
 

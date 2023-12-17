@@ -8,7 +8,7 @@ import PostTrack from "./pages/PostTrack";
 const App = () => {
   return (
     <div>
-      <header className="h-[3.5rem] w-full p-2 bg-black text-white flex items-center justify-between font-semibold">
+      <header className="h-[2rem] w-full p-2 bg-black text-white flex items-center justify-between font-semibold">
         <Link to="/"> HOME</Link>
         <div className="flex gap-2 text-sm ">
           <Link to="/login" className="px-2 py-1 bg-purple-900 rounded-md">
@@ -21,7 +21,7 @@ const App = () => {
           </Link>
         </div>
       </header>
-      <main className="w-[100vw] h-[92vh] flex items-center bg-black justify-center bg-login-register-texture">
+      <main className="w-[100vw] min-h-[100vh] flex p-4 items-center bg-black justify-center bg-login-register-texture">
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>

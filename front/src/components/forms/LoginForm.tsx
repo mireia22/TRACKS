@@ -44,7 +44,7 @@ const LoginForm = () => {
         className="flex flex-col gap-4 py-4 px-2 bg-dark-purple text-white  items-center w-[16rem] rounded-lg"
         onSubmit={handleLogin}
       >
-        <h2 className="text-xl font-semibold">Login Form</h2>
+        <h2 className="text-xl font-semibold">Login Here</h2>
         <div className="flex flex-col">
           <label htmlFor="email">Email</label>
           <input

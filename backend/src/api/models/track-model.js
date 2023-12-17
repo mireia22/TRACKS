@@ -6,19 +6,15 @@ const trackSchema = new mongoose.Schema(
       {
         lat: {
           type: Number,
-          required: true,
         },
         lon: {
           type: Number,
-          required: true,
         },
         ele: {
           type: Number,
-          required: true,
         },
         time: {
           type: String,
-          required: true,
         },
       },
     ],
@@ -39,6 +35,7 @@ const trackSchema = new mongoose.Schema(
     title: {
       type: String,
     },
+    photo: { type: String },
   },
   {
     timestamps: true,

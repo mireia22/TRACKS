@@ -1,15 +1,18 @@
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { toKM } from "../utils/convertUnits";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { toKM, totalTime } from "../utils/convertUnits";
 import { useGpxDataContext } from "../hooks/useGpxDataContext";
 import LineChart from "../components/map/LineChart";
 import Map from "../components/map/Map";
+import Loader from "../components/main-components/Loader";
 
 const TrackViewer = () => {
   const { gpxData, setGpxData } = useGpxDataContext();
-  const { points, elevation, totalDistance } = gpxData;
+  const { points, elevation, totalDistance, title } = gpxData;
   const { id } = useParams();
-  console.log(points, "points");
+  const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,29 +24,95 @@ const TrackViewer = () => {
         setGpxData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [id, setGpxData]);
 
-  return (
-    <div className="flex">
-      <div>
-        <Map points={points} />
-        <LineChart points={points} />
-      </div>
+  const handleDeleteTrack = async () => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this track?"
+    );
+    if (isConfirmed) {
+      try {
+        const response = await fetch(
+          `http://localhost:3200/api/v1/tracks/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
 
-      <aside className="flex flex-col bg-purple-950 text-white gap-2 p-2 max-w-[15vw] items-center text-center text-xs">
-        <h5 className="font-semibold ">TOTAL DISTANCE:</h5>
-        <p className="font-semibold text-xl">{toKM(totalDistance)} km</p>
-        <h5 className="font-semibold  mt-8 text-xs">MAX ELEVATION:</h5>
-        <p>{elevation.max} m</p>
-        <h5 className="font-semibold ">MIN ELEVATION:</h5>
-        <p>{elevation.min} m</p>
-        <h5 className="font-semibold ">AVG ELEVATION:</h5>
-        <p>{elevation.avg?.toFixed(2)} m</p>
-      </aside>
+        if (response.ok) {
+          console.log("Track deleted successfully");
+
+          navigate("/");
+        } else {
+          console.error("Failed to delete track");
+        }
+      } catch (error) {
+        console.error("Error deleting track:", error);
+      }
+    }
+  };
+
+  if (loading) {
+    return <Loader />;
+  }
+  return (
+    <div className="flex flex-col gap-2 text-white items-center ">
+      <article className="flex flex-col items-center ">
+        <h1 className=" text-3xl font-semibold">{title.toUpperCase()}</h1>
+        <Map points={points} />
+      </article>
+      <article className="flex flex-row items-start justify-around w-[90vw]">
+        <LineChart points={points} />
+        <div className="flex flex-col bg-dark-purple justify-between gap-3 rounded-lg py-6 w-[25rem]  h-[23rem] items-center">
+          <div className="flex flex-col justify-between gap-5 items-center ">
+            <h5 className="font-semibold ">TOTAL DISTANCE:</h5>
+            <p className="font-semibold text-4xl">{toKM(totalDistance)} km</p>
+            <h5 className="font-semibold ">TOTAL TIME:</h5>
+            <p className="font-semibold text-4xl">
+              {totalTime(points[0].time, points[points.length - 1].time)}
+            </p>
+          </div>
+          <div className="flex  justify-between gap-5 items-center ">
+            <div className="flex flex-col items-center justify-center">
+              <h5 className="font-semibold   text-xs">MAX ELEVATION:</h5>
+              <p className="font-semibold text-3xl">{elevation.max} m</p>
+            </div>
+            <div className="flex flex-col items-center justify-center">
+              <h5 className="font-semibold ">MIN ELEVATION:</h5>
+              <p className="font-semibold text-3xl">{elevation.min} m</p>
+            </div>
+            <div className="flex flex-col items-center justify-center">
+              <h5 className="font-semibold ">AVG ELEVATION:</h5>
+              <p className="font-semibold text-3xl">
+                {elevation.avg?.toFixed()} m
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article>
+        <ul>
+          <li>Images</li>
+        </ul>
+      </article>
+      <article>
+        <h2 className="text-4xl">Description</h2>
+        <p></p>
+      </article>
+      <article>
+        <button
+          className="px-2 py-1 bg-red-600 rounded-md"
+          onClick={handleDeleteTrack}
+        >
+          Delete Track
+        </button>
+      </article>
     </div>
   );
 };

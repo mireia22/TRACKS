@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 const PostTrackForm = () => {
   const { gpxData, setGpxData } = useGpxDataContext();
   const [title, setTitle] = useState("");
+  const [photos, setPhotos] = useState([]);
   const navigate = useNavigate();
 
   const handleFileChange = (formData: string) => {
@@ -18,7 +19,8 @@ const PostTrackForm = () => {
 
     if (gpxData) {
       console.log(title);
-      parseAndPostTrack(gpxData, title, setGpxData);
+      console.log(photos);
+      parseAndPostTrack(gpxData, title, photos, setGpxData);
     }
     navigate("/");
   };
@@ -35,7 +37,15 @@ const PostTrackForm = () => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
+
       <InputFileReader onFileRead={handleFileChange} />
+      <label htmlFor="photos">photos</label>
+      <input
+        type="file"
+        id="photos"
+        value={photos}
+        onChange={(e) => setPhotos(e.target.value)}
+      />
 
       <button className=" px-2 bg-purple-800 rounded-lg text-white">
         POST

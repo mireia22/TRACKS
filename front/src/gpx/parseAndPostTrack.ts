@@ -3,10 +3,11 @@ import { postTrackData } from "../gpx/postTrackData";
 
 export const parseAndPostTrack = (
   fileData: string,
-  formData: FormData,
+  title: FormData,
+  photos: FormData,
   setGpxData: React.Dispatch<React.SetStateAction<any>>
 ) => {
   const newGpxData = parseTrack(fileData);
   setGpxData(newGpxData);
-  postTrackData(newGpxData, formData);
+  postTrackData(newGpxData, title, photos);
 };

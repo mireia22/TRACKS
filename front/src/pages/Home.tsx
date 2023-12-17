@@ -1,22 +1,25 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { toKM } from "../utils/convertUnits";
-import PostTrackForm from "../components/forms/PostTrackForm";
+import { toKM, totalTime } from "../utils/convertUnits";
 import Map from "../components/map/Map";
+import Loader from "../components/main-components/Loader";
 
 const Home = () => {
   const [savedTracks, setSavedTracks] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const response = await fetch("http://localhost:3200/api/v1/tracks");
         const data = await response.json();
         setSavedTracks(data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
+    // console.log(savedTracks);
 
     fetchData();
   }, [savedTracks]);
@@ -27,25 +30,31 @@ const Home = () => {
         <h4 className="font-semibold text-xl">Saved Tracks:</h4>
         {savedTracks.length > 0 ? (
           <ul className="flex flex-col gap-4  ">
-            {savedTracks.map((data) => (
+            {savedTracks.map((track) => (
               <li
-                key={data._id}
-                className="font-semibold flex flex-col items-start   "
+                key={track._id}
+                className="font-semibold flex flex-col items-start gap-1   "
               >
                 <h2 className="text-2xl text-white">
-                  {data.title.toUpperCase()}
+                  {track.title.toUpperCase()}
                 </h2>
 
                 <Link
-                  to={`/tracks/${data._id}`}
+                  to={`/tracks/${track._id}`}
                   className=" text-black flex justify-between cursor-pointer rounded-lg bg-white p-2 w-[85vw] h-[15rem]"
                 >
                   <article className="flex flex-col items-start justify-around">
-                    <h4>TECHNICAL INFO</h4>
+                    <h4 className="text-xl text-dark-purple"> INFO</h4>
                     <p>Location: Location</p>
-                    <p>Distance: {toKM(data.totalDistance)} km</p>
-                    <p>Max height: {data.elevation.max} m</p>
-                    <p>Time: {toKM(data.time)} h</p>
+                    <p>Distance: {toKM(track.totalDistance)} km</p>
+                    <p>Max height: {track.elevation.max} m</p>
+                    <p>
+                      Total Time:{" "}
+                      {totalTime(
+                        track.points[0].time,
+                        track.points[track.points.length - 1].time
+                      )}
+                    </p>
                   </article>
                   <article className="flex gap-2">
                     <div className="w-[20rem] h-[14rem] bg-black text-white">
@@ -53,7 +62,7 @@ const Home = () => {
                     </div>
 
                     <div className="w-[30rem] h-[14rem] bg-black text-white">
-                      <Map points={data.points} small />
+                      <Map points={track.points} small />
                     </div>
                   </article>
                 </Link>
