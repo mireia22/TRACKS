@@ -1,5 +1,6 @@
 const { deleteFile } = require("../../utils/delefeFile");
 const Track = require("../models/track-model");
+const cloudinary = require("cloudinary").v2;
 
 const getAllTracks = async (req, res, next) => {
   try {
@@ -31,24 +32,20 @@ const getTrackById = async (req, res, next) => {
 
 const postTrack = async (req, res, next) => {
   try {
-    const { points, totalDistance, elevation, title, photo } = req.body;
+    const { points, totalDistance, elevation, title } = req.body;
     const newTrack = new Track({
-      points,
+      points: JSON.parse(points), // Parse the JSON strings
       totalDistance,
-      elevation,
+      elevation: JSON.parse(elevation), // Parse the JSON strings
       title,
-      photo,
     });
 
     if (req.file) {
       newTrack.photo = req.file.path;
     }
 
-    // if (req.user.role === "admin") {
-    //   newTrack.verified = true;
-    // } else {
-    //   newTrack.verified = false;
-    // }
+    const cloudinaryResponse = await cloudinary.uploader.upload(req.file.path);
+    newTrack.photo = cloudinaryResponse.secure_url;
 
     const savedTrack = await newTrack.save();
     console.log("Track saved", savedTrack);

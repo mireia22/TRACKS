@@ -1,20 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toKM, totalTime } from "../utils/convertUnits";
-import Map from "../components/map/Map";
-import Loader from "../components/main-components/Loader";
+import Map from "../components/track-viewer/Map";
 
 const Home = () => {
   const [savedTracks, setSavedTracks] = useState([]);
-  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       try {
         const response = await fetch("http://localhost:3200/api/v1/tracks");
         const data = await response.json();
         setSavedTracks(data);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -58,7 +54,11 @@ const Home = () => {
                   </article>
                   <article className="flex gap-2">
                     <div className="w-[20rem] h-[14rem] bg-black text-white">
-                      PHOTOS
+                      <img
+                        src={track.photo}
+                        alt={track.title}
+                        className="w-full h-full object-contain"
+                      />
                     </div>
 
                     <div className="w-[30rem] h-[14rem] bg-black text-white">

@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toKM, totalTime } from "../utils/convertUnits";
 import { useGpxDataContext } from "../hooks/useGpxDataContext";
-import LineChart from "../components/map/LineChart";
-import Map from "../components/map/Map";
+import LineChart from "../components/track-viewer/LineChart";
+import Map from "../components/track-viewer/Map";
 import Loader from "../components/main-components/Loader";
 
 const TrackViewer = () => {
   const { gpxData, setGpxData } = useGpxDataContext();
-  const { points, elevation, totalDistance, title } = gpxData;
+  const { points, elevation, totalDistance, title, photo } = gpxData;
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
 
@@ -63,16 +63,16 @@ const TrackViewer = () => {
   }
   return (
     <div className="flex flex-col gap-2 text-white items-center ">
-      <article className="flex flex-col items-center ">
+      <section className="flex flex-col items-center ">
         <h1 className=" text-3xl font-semibold">{title.toUpperCase()}</h1>
         <Map points={points} />
-      </article>
-      <article className="flex flex-row items-start justify-around w-[90vw]">
+      </section>
+      <section className="flex flex-row items-start justify-around w-[90vw]">
         <LineChart points={points} />
-        <div className="flex flex-col bg-dark-purple justify-between gap-3 rounded-lg py-6 w-[25rem]  h-[23rem] items-center">
+        <article className="flex flex-col bg-dark-purple justify-between gap-3 rounded-lg py-6 w-[25rem]  h-[23rem] items-center">
           <div className="flex flex-col justify-between gap-5 items-center ">
             <h5 className="font-semibold ">TOTAL DISTANCE:</h5>
-            <p className="font-semibold text-4xl">{toKM(totalDistance)} km</p>
+            <p className="font-semibold text-5xl">{toKM(totalDistance)} km</p>
             <h5 className="font-semibold ">TOTAL TIME:</h5>
             <p className="font-semibold text-4xl">
               {totalTime(points[0].time, points[points.length - 1].time)}
@@ -94,25 +94,30 @@ const TrackViewer = () => {
               </p>
             </div>
           </div>
+        </article>
+      </section>
+      <section>
+        <h2 className="text-4xl">Images</h2>
+        <div className="w-[10rem] h-[12rem]">
+          <img
+            className="w-full h-full object-contain"
+            src={photo}
+            alt={title}
+          />
         </div>
-      </article>
-      <article>
-        <ul>
-          <li>Images</li>
-        </ul>
-      </article>
-      <article>
+      </section>
+      <section>
         <h2 className="text-4xl">Description</h2>
         <p></p>
-      </article>
-      <article>
+      </section>
+      <section>
         <button
           className="px-2 py-1 bg-red-600 rounded-md"
           onClick={handleDeleteTrack}
         >
           Delete Track
         </button>
-      </article>
+      </section>
     </div>
   );
 };
