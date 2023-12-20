@@ -34,9 +34,9 @@ const postTrack = async (req, res, next) => {
   try {
     const { points, totalDistance, elevation, title } = req.body;
     const newTrack = new Track({
-      points: JSON.parse(points), // Parse the JSON strings
+      points: JSON.parse(points),
       totalDistance,
-      elevation: JSON.parse(elevation), // Parse the JSON strings
+      elevation: JSON.parse(elevation),
       title,
     });
 
@@ -60,11 +60,7 @@ const postTrack = async (req, res, next) => {
 const updateTrack = async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log(id);
-    console.log("req.file:", req.file);
-    console.log("req.body:", req.body);
-    const newTrack = new Track(req.body);
-    newTrack._id = id;
+    const newTrack = { ...req.body };
 
     if (req.file) {
       newTrack.photo = req.file.path;
@@ -72,15 +68,19 @@ const updateTrack = async (req, res, next) => {
       deleteFile(oldTrack.photo);
     }
 
+    if ("description" in req.body) {
+      newTrack.description = req.body.description;
+    }
+
     const updatedTrack = await Track.findByIdAndUpdate(id, newTrack, {
       new: true,
     });
+
     return res.status(200).json(updatedTrack);
   } catch (error) {
     res.status(500).json(error);
   }
 };
-
 const deleteTrackByID = async (req, res, next) => {
   try {
     const { id } = req.params;

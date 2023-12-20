@@ -14,5 +14,5 @@ export const totalTime = (initialTime, finishTime) => {
   const hoursDifference = differenceInHours(endDate, startDate);
   const minutesDifference = differenceInMinutes(endDate, startDate) % 60;
 
-  return `${hoursDifference}h ${minutesDifference}m`;
+  return `${hoursDifference}h ${minutesDifference} min.`;
 };

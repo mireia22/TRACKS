@@ -24,18 +24,12 @@ const InputFileReader: React.FC<FileInputProps> = ({ onFileRead }) => {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-        Upload file
-      </label>
-      <input
-        className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-purple-50
-"
-        id="file_input"
-        type="file"
-        onChange={handleFileChange}
-      />
-    </div>
+    <input
+      id="file_input"
+      type="file"
+      onChange={handleFileChange}
+      className="bg-black p-1"
+    />
   );
 };
 

@@ -12,7 +12,8 @@ const Map = ({ points, small }) => {
     <MapContainer
       center={latitudesAndLongitudes[0]}
       zoom={13}
-      className={small ? "small-map" : ""} // Add a class for smaller map styling
+      style={{ zIndex: 0 }}
+      className={small ? "small-map" : ""}
     >
       <TileLayer
         attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
