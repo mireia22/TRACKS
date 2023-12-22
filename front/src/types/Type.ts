@@ -19,5 +19,4 @@ export type UserData = {
   userName: string | null;
   email: string | null;
   password: string | null;
-  favouriteTracks: string[] | null;
 };

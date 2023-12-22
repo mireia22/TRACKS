@@ -1,15 +1,20 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useUserDataContext } from "../../hooks/useUserData";
+import { useState } from "react";
+import Loader from "../main-components/Loader";
 
 const RegisterForm = () => {
   const { setUserData, userData } = useUserDataContext();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:3200/api/v1/users/register", {
+      setLoading(true);
+      const res = await fetch("http://localhost:3200/api/v1/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -17,36 +22,31 @@ const RegisterForm = () => {
         body: JSON.stringify(userData),
       });
 
-      if (!res.ok) {
-        console.error("Registration failed");
-        return;
-      }
-
       const data = await res.json();
-      const { userName, email, password, favouriteTracks } = data;
+      setLoading(false);
 
-      setUserData({
-        userName,
-        email,
-        password: "",
-        favouriteTracks,
-      });
-      navigate("/login");
+      if (data.success === false) {
+        setError(data.message || "Something went wrong!");
+      } else {
+        navigate("/login");
+      }
     } catch (error) {
-      console.error("Error during registration:", error);
+      setLoading(false);
+      setError("Something went wrong!");
+      console.error("Error during registration:", error.message);
     }
   };
-
   return (
     <div>
       <form
-        className="flex flex-col gap-4 py-4 px-2 bg-dark-purple text-white items-center w-[16rem] rounded-lg"
+        className="flex flex-col gap-4 py-4 px-6 bg-dark-purple text-white items-center w-[16rem] rounded-lg"
         onSubmit={handleRegister}
       >
         <h2 className="text-xl font-semibold ">Register Here</h2>
-        <div className="flex flex-col">
+        <article className="flex flex-col gap-2">
           <label htmlFor="username">Username</label>
           <input
+            placeholder="Username"
             type="text"
             value={userData.userName || ""}
             onChange={(e) =>
@@ -55,15 +55,14 @@ const RegisterForm = () => {
                 userName: e.target.value,
               })
             }
-            className="p-1 rounded-sm text-black"
+            className="p-2 rounded-sm text-black"
             id="username"
             required
           />
-        </div>
 
-        <div className="flex flex-col">
           <label htmlFor="email">Email</label>
           <input
+            placeholder="Email"
             type="text"
             value={userData.email || ""}
             onChange={(e) =>
@@ -72,14 +71,13 @@ const RegisterForm = () => {
                 email: e.target.value,
               })
             }
-            className="p-1 rounded-sm text-black"
+            className="p-2 rounded-sm text-black"
             id="email"
             required
           />
-        </div>
-        <div className="flex flex-col">
           <label htmlFor="password">Password</label>
           <input
+            placeholder="Password"
             type="password"
             value={userData.password || ""}
             onChange={(e) =>
@@ -88,20 +86,31 @@ const RegisterForm = () => {
                 password: e.target.value,
               })
             }
-            className="p-1 rounded-sm text-black"
+            className="p-2 rounded-sm text-black"
             id="password"
             required
           />
-        </div>
-        <button className="px-2 py-1 bg-black rounded-lg text-white text-sm">
-          REGISTER
-        </button>
-        <div className="flex flex-col items-center text-sm">
-          <p>If you already have an account:</p>
-          <Link to="/login" className="text-purple-400 underline font-semibold">
-            Login
+          <p className="text-red-700 text-center ">{error && error}</p>
+        </article>
+        <article className="flex flex-col w-full gap-2 font-semibold">
+          <button
+            disabled={loading}
+            className=" w-full cursor-pointer py-3 bg-black rounded-lg text-white text-sm hover:opacity-80 disabled:opacity-70"
+          >
+            {loading ? <Loader /> : "REGISTER"}
+          </button>
+          <button className="w-full cursor-pointer  py-3 bg-red-500 rounded-lg text-white text-sm hover:opacity-80  disabled:opacity-70">
+            Continue With Google
+          </button>
+        </article>
+        <article className="flex flex-col items-center text-sm mt-3">
+          <p>Have an account?</p>
+          <Link to="/login">
+            <span className="text-purple-300 underline font-semibold">
+              Login
+            </span>
           </Link>
-        </div>
+        </article>
       </form>
     </div>
   );

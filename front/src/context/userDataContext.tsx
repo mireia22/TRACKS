@@ -5,7 +5,6 @@ export const UserDataContext = createContext<UserData>({
   userName: null,
   email: null,
   password: null,
-  favouriteTracks: null,
 });
 
 export const UserDataProvider = ({ children }) => {
@@ -13,7 +12,6 @@ export const UserDataProvider = ({ children }) => {
     userName: null,
     email: null,
     password: null,
-    favouriteTracks: null,
   });
 
   const sharedState = {

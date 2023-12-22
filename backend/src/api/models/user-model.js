@@ -1,27 +1,29 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 
 const userSchema = new mongoose.Schema(
   {
     userName: {
       type: String,
       required: true,
+      unique: true,
     },
     email: {
       type: String,
       required: true,
+      unique: true,
     },
 
     password: {
       type: String,
       required: true,
     },
-    role: {
-      type: String,
-      enum: ["user", "admin"],
-      default: "user",
-    },
-    favouriteTracks: [{ type: mongoose.Types.ObjectId, ref: "tracks" }],
+    // role: {
+    //   type: String,
+    //   enum: ["user", "admin"],
+    //   default: "user",
+    // },
+    // favouriteTracks: [{ type: mongoose.Types.ObjectId, ref: "tracks" }],
   },
   {
     timestamps: true,
@@ -30,7 +32,7 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.pre("save", function () {
-  this.password = bcrypt.hashSync(this.password, 10);
+  this.password = bcryptjs.hashSync(this.password, 10);
 });
 
 const User = mongoose.model("users", userSchema, "users");

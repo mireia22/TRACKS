@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import TrackList from "../components/home/TrackList";
+import Loader from "../components/main-components/Loader";
 
 const Home = () => {
   const [savedTracks, setSavedTracks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -13,6 +15,8 @@ const Home = () => {
         setSavedTracks(data);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -21,25 +25,34 @@ const Home = () => {
 
   return (
     <section className="flex flex-col items-center gap-6">
-      {savedTracks.length > 0 ? (
-        <>
-          <h4 className="font-semibold text-3xl text-white text-center">
-            SAVED TRACKS:
-          </h4>
-          <TrackList savedTracks={savedTracks} />
-        </>
+      {loading ? (
+        <Loader />
       ) : (
-        <h4 className="font-semibold text-3xl text-white text-center">
-          NO SAVED TRACKS
-        </h4>
+        <>
+          {savedTracks.length > 0 ? (
+            <>
+              <h4 className="font-semibold text-3xl text-white text-center">
+                SAVED TRACKS:
+              </h4>
+              <TrackList
+                savedTracks={savedTracks}
+                setSavedTracks={setSavedTracks}
+                loading={loading}
+              />
+            </>
+          ) : (
+            <h4 className="font-semibold text-3xl text-white text-center">
+              NO SAVED TRACKS
+            </h4>
+          )}
+          <Link
+            to="/post-track"
+            className="p-2 bg-dark-purple text-white border-2 border-white rounded-sm"
+          >
+            POST NEW TRACK +
+          </Link>
+        </>
       )}
-
-      <Link
-        to="/post-track"
-        className="p-2 bg-dark-purple text-white border-2 border-white rounded-sm"
-      >
-        POST NEW TRACK +
-      </Link>
     </section>
   );
 };

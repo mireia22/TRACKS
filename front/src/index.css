@@ -9,7 +9,7 @@
   text-decoration: none;
 }
 
-/* sizing of map container */
+/* map container */
 .leaflet-container {
   width: 90vw;
   height: 50vh;

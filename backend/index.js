@@ -26,6 +26,12 @@ app.use("*", (req, res, next) => {
   console.log("Route Not Found");
 });
 
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  return res.status(statusCode).json({ success: false, message, statusCode });
+});
+
 const PORT = process.env.PORT;
 app.listen(PORT || 3200, () => {
   connectToDB();

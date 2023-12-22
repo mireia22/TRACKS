@@ -29,6 +29,6 @@ export async function postTrackData(
     }
   } catch (error) {
     console.error("Error in postTrackData:", error);
-    throw error; // Rethrow the error to handle it in the calling function
+    throw error;
   }
 }

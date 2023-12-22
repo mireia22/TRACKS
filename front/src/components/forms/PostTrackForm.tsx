@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const PostTrackForm = () => {
   const { gpxData, setGpxData } = useGpxDataContext();
   const [title, setTitle] = useState("");
-  const [photo, setPhoto] = useState<File | null>(null);
+  const [photo, setPhoto] = useState<File[] | null>([]);
 
   const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ const PostTrackForm = () => {
 
     if (gpxData) {
       console.log("TITLE", title);
-      console.log("PHOTOS", photo);
+      console.log("PHOTO", photo);
       parseAndPostTrack(gpxData, title, photo, setGpxData);
     }
     navigate("/");
